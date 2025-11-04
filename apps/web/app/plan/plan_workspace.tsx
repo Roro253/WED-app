@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { PlanSummaryPanel } from '@/components/PlanSummaryPanel'
 import { VendorLoadout } from '@/components/VendorLoadout'
+import PreferencesDrawer from '@/components/preferences/PreferencesDrawer'
 import { DecisionModal, type Option } from '@/components/DecisionModal'
 import { RedlineModal } from '@/components/RedlineModal'
 import { formatCents } from '@/lib/money'
@@ -101,7 +102,10 @@ export default function PlanClient() {
     <div className="grid gap-6 md:grid-cols-[320px,1fr]">
       <PlanSummaryPanel />
       <section>
-        <h2 className="mb-2 font-serif text-xl text-[--ink-900]">Party Loadout</h2>
+        <div className="mb-2 flex items-center justify-between">
+          <h2 className="font-serif text-xl text-[--ink-900]">Party Loadout</h2>
+          <PreferencesButton />
+        </div>
         <VendorLoadout onOpen={(id) => setOpenId(id)} />
         <h3 className="mb-2 mt-6 font-serif text-xl text-[--ink-900]">Decisions</h3>
         <div className="space-y-3">
@@ -159,5 +163,15 @@ export default function PlanClient() {
         )}
       </div>
     </div>
+  )
+}
+
+function PreferencesButton() {
+  const [open, setOpen] = useState(false)
+  return (
+    <>
+      <button onClick={() => setOpen(true)} className="rounded-full border border-[--ink-300] px-3 py-1 text-sm text-[--ink-900] hover:bg-[--paper-100]">Edit preferences</button>
+      {open && <PreferencesDrawer onClose={() => setOpen(false)} />}
+    </>
   )
 }

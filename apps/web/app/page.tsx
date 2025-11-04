@@ -1,76 +1,45 @@
 import Link from 'next/link'
-import { formatCents } from '@/lib/money'
 
-export default async function Home() {
-  // Static demo venues
-  const venues = [
-    {
-      id: 'garden-loft',
-      name: 'Garden Loft',
-      priceCents: 1_200_000,
-      score: 92,
-      reasons: ['Open layout', 'Great light'],
-      tags: ['garden', 'modern'],
-    },
-    {
-      id: 'historic-hall',
-      name: 'Historic Hall',
-      priceCents: 1_500_000,
-      score: 86,
-      reasons: ['Classic vibe', 'Central location'],
-      tags: ['historic'],
-    },
-    {
-      id: 'riverside-pavilion',
-      name: 'Riverside Pavilion',
-      priceCents: 1_000_000,
-      score: 94,
-      reasons: ['Waterfront', 'Rain plan'],
-      tags: ['modern'],
-    },
-  ]
-
-  async function tryInMyPlan(venueId: string) {
-    'use server'
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || ''}/api/plan/summary`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ venue: venueId }),
-    })
-    if (!res.ok) throw new Error('Failed to save')
-  }
-
+export default function Home() {
   return (
-    <div>
-      <h1 className="font-serif text-2xl text-[--ink-900]">Plan Preview</h1>
-      <p className="mt-1 text-[--ink-700]">Three venues that fit. Pick one to continue.</p>
-      <div className="mt-6 grid gap-4 md:grid-cols-3">
-        {venues.map((v) => (
-          <form key={v.id} action={tryInMyPlan.bind(null, v.id)} className="rounded-2xl border border-[--ink-200] p-4">
-            <div className="aspect-video w-full rounded-xl bg-[--ink-100]" aria-label="Venue image" />
-            <div className="mt-3 flex items-baseline justify-between">
-              <div>
-                <div className="font-medium text-[--ink-900]">{v.name}</div>
-                <div className="text-sm text-[--ink-600]">Compatibility {v.score}%</div>
-              </div>
-              <div className="text-[--ink-900]">{formatCents(v.priceCents)}</div>
+    <div className="space-y-16">
+      <section className="mt-6 grid items-center gap-8 md:grid-cols-2">
+        <div>
+          <h1 className="font-serif text-3xl text-[--ink-900]">A planner‑grade wedding plan—built by AI, approved by you.</h1>
+          <p className="mt-3 text-lg text-[--ink-700]">We draft the full plan to your style and budget. You approve, swap, and book.</p>
+          <div className="mt-6 flex gap-3">
+            <Link href="/start" className="rounded-full bg-[--ink-900] px-5 py-2 text-[--paper-50] hover:bg-[--ink-800]">Start planning</Link>
+            <Link href="/vendors" className="rounded-full border border-[--ink-300] px-5 py-2 text-[--ink-900] hover:bg-[--paper-100]">Explore venues</Link>
+          </div>
+        </div>
+        <div className="aspect-video w-full rounded-2xl bg-[--ink-100]" aria-label="Hero visual" />
+      </section>
+
+      <section>
+        <h2 className="mb-4 font-serif text-2xl text-[--ink-900]">How it works</h2>
+        <div className="grid gap-4 md:grid-cols-4">
+          {[
+            { t: 'Onboard', d: 'Share vibe, budget, and constraints.' },
+            { t: 'Draft Plan', d: 'We assemble your core team.' },
+            { t: 'Approve/Swap', d: 'Lock picks or explore alternates.' },
+            { t: 'Book', d: 'We finalize details and timing.' },
+          ].map((s) => (
+            <div key={s.t} className="rounded-2xl border border-[--ink-200] p-4">
+              <div className="font-medium text-[--ink-900]">{s.t}</div>
+              <p className="mt-1 text-sm text-[--ink-700]">{s.d}</p>
             </div>
-            <ul className="mt-2 list-disc pl-5 text-sm text-[--ink-700]">
-              {v.reasons.map((r) => (
-                <li key={r}>{r}</li>
-              ))}
-            </ul>
-            <div className="mt-4 flex items-center justify-between">
-              <button className="rounded-full bg-[--ink-900] px-4 py-2 text-[--paper-50] hover:bg-[--ink-800] focus:outline-none focus-visible:ring-2 focus-visible:ring-[--accent-600]">
-                Try in my plan
-              </button>
-              <Link href="/plan" className="text-sm text-[--ink-700] underline">
-                Continue
-              </Link>
-            </div>
-          </form>
-        ))}
-      </div>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <h2 className="mb-4 font-serif text-2xl text-[--ink-900]">Couples love calm planning</h2>
+        <div className="grid gap-4 md:grid-cols-3">
+          {['“It felt like a planner.”','“Approvals were so easy.”','“We stayed on budget.”'].map((q, i) => (
+            <div key={i} className="rounded-2xl border border-[--ink-200] p-4 text-[--ink-800]">{q}</div>
+          ))}
+        </div>
+      </section>
     </div>
   )
 }
