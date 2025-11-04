@@ -32,7 +32,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section>
+      <section id="reviews">
         <h2 className="mb-4 font-serif text-2xl text-[--ink-900]">Couples love calm planning</h2>
         <div className="grid gap-4 md:grid-cols-3">
           {['“It felt like a planner.”','“Approvals were so easy.”','“We stayed on budget.”'].map((q, i) => (

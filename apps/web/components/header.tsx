@@ -12,6 +12,7 @@ export default function Header() {
           <Link href="/about" className="hover:underline">How it works</Link>
           <Link href="/pricing" className="hover:underline">Pricing</Link>
           <Link href="/vendors" className="hover:underline">Explore venues</Link>
+          <a href="/#reviews" className="hover:underline">Reviews</a>
         </nav>
         <div className="flex items-center gap-3">
           <Link href="/start" className="rounded-full bg-[--ink-900] px-4 py-1.5 text-[--paper-50] hover:bg-[--ink-800]" aria-label="Start planning">
@@ -22,4 +23,3 @@ export default function Header() {
     </header>
   )
 }
-
