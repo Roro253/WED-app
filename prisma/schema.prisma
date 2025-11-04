@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String?  @unique
+  createdAt DateTime @default(now())
+  plans     Plan[]
+}
+
+model Plan {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  status       String   @default("preview")
+  redlineCents Int
+  totalCents   Int      @default(0)
+  summary      String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  decisions    DecisionItem[]
+}
+
+model DecisionItem {
+  id          String   @id @default(cuid())
+  planId      String
+  plan        Plan     @relation(fields: [planId], references: [id])
+  category    String
+  impactScore Int
+  status      String
+  selected    String
+  options     String
+  deltaCents  Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model Quiz {
+  id        String   @id @default(cuid())
+  name      String
+  version   Int
+  spec      String
+  createdAt DateTime  @default(now())
+}
+
+model QuizResponse {
+  id        String   @id @default(cuid())
+  userId    String
+  quizId    String
+  answers   String
+  tags      String?
+  score     Float?
+  createdAt DateTime @default(now())
+}
