@@ -61,7 +61,7 @@ export default async function Home() {
               ))}
             </ul>
             <div className="mt-4 flex items-center justify-between">
-              <button className="rounded-full bg-[--ink-900] px-4 py-2 text-white hover:bg-[--ink-800] focus:outline-none focus-visible:ring-2 focus-visible:ring-[--accent-600]">
+              <button className="rounded-full bg-[--ink-900] px-4 py-2 text-[--paper-50] hover:bg-[--ink-800] focus:outline-none focus-visible:ring-2 focus-visible:ring-[--accent-600]">
                 Try in my plan
               </button>
               <Link href="/plan" className="text-sm text-[--ink-700] underline">

@@ -72,7 +72,7 @@ export function RedlineModal({
           <button onClick={onClose} className="rounded-full border border-[--ink-300] px-4 py-2 hover:bg-[--paper-100]">
             Cancel
           </button>
-          <button onClick={onProceed} className="rounded-full bg-[--ink-900] px-5 py-2 text-white hover:bg-[--ink-800]">
+          <button onClick={onProceed} className="rounded-full bg-[--ink-900] px-5 py-2 text-[--paper-50] hover:bg-[--ink-800]">
             Proceed anyway
           </button>
         </footer>
@@ -80,4 +80,3 @@ export function RedlineModal({
     </div>
   )
 }
-

@@ -132,7 +132,7 @@ export default function QuizPage() {
         aria-label={ariaLabel}
         aria-pressed={active}
         className={`rounded-full px-3 py-1 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-[--accent-600] ${
-          active ? 'bg-[--ink-900] text-white' : 'border border-[--ink-300] text-[--ink-800]'
+          active ? 'bg-[--ink-900] text-[--paper-50]' : 'border border-[--ink-300] text-[--ink-800]'
         }`}
       >
         {children}
@@ -202,7 +202,7 @@ export default function QuizPage() {
             </div>
           </div>
           <div className="mt-8 flex justify-end gap-3">
-            <button onClick={next} className="rounded-full bg-[--ink-900] px-5 py-2 text-white">Start</button>
+            <button onClick={next} className="rounded-full bg-[--ink-900] px-5 py-2 text-[--paper-50]">Start</button>
           </div>
         </section>
       )}
@@ -229,7 +229,7 @@ export default function QuizPage() {
             <button onClick={back} className="rounded-full border border-[--ink-300] px-4 py-2">Back</button>
             <div className="flex gap-2">
               <button onClick={next} className="rounded-full border border-[--ink-300] px-4 py-2">Skip</button>
-              <button onClick={next} className="rounded-full bg-[--ink-900] px-5 py-2 text-white">Next</button>
+              <button onClick={next} className="rounded-full bg-[--ink-900] px-5 py-2 text-[--paper-50]">Next</button>
             </div>
           </div>
         </section>
@@ -272,7 +272,7 @@ export default function QuizPage() {
             <button onClick={back} className="rounded-full border border-[--ink-300] px-4 py-2">Back</button>
             <div className="flex gap-2">
               <button onClick={next} className="rounded-full border border-[--ink-300] px-4 py-2">Skip</button>
-              <button onClick={next} className="rounded-full bg-[--ink-900] px-5 py-2 text-white">Next</button>
+              <button onClick={next} className="rounded-full bg-[--ink-900] px-5 py-2 text-[--paper-50]">Next</button>
             </div>
           </div>
         </section>
@@ -313,7 +313,7 @@ export default function QuizPage() {
             <button onClick={back} className="rounded-full border border-[--ink-300] px-4 py-2">Back</button>
             <div className="flex gap-2">
               <button onClick={next} className="rounded-full border border-[--ink-300] px-4 py-2">Skip</button>
-              <button onClick={next} className="rounded-full bg-[--ink-900] px-5 py-2 text-white">Next</button>
+              <button onClick={next} className="rounded-full bg-[--ink-900] px-5 py-2 text-[--paper-50]">Next</button>
             </div>
           </div>
         </section>
@@ -358,7 +358,7 @@ export default function QuizPage() {
             <button onClick={back} className="rounded-full border border-[--ink-300] px-4 py-2">Back</button>
             <div className="flex gap-2">
               <button onClick={next} className="rounded-full border border-[--ink-300] px-4 py-2">Skip</button>
-              <button onClick={next} className="rounded-full bg-[--ink-900] px-5 py-2 text-white">Next</button>
+              <button onClick={next} className="rounded-full bg-[--ink-900] px-5 py-2 text-[--paper-50]">Next</button>
             </div>
           </div>
         </section>
@@ -400,7 +400,7 @@ export default function QuizPage() {
             <button onClick={back} className="rounded-full border border-[--ink-300] px-4 py-2">Back</button>
             <div className="flex gap-2">
               <button onClick={next} className="rounded-full border border-[--ink-300] px-4 py-2">Skip</button>
-              <button onClick={next} className="rounded-full bg-[--ink-900] px-5 py-2 text-white">Next</button>
+              <button onClick={next} className="rounded-full bg-[--ink-900] px-5 py-2 text-[--paper-50]">Next</button>
             </div>
           </div>
         </section>
@@ -458,7 +458,7 @@ export default function QuizPage() {
             <button onClick={back} className="rounded-full border border-[--ink-300] px-4 py-2">Back</button>
             <div className="flex gap-2">
               <button onClick={next} className="rounded-full border border-[--ink-300] px-4 py-2">Skip</button>
-              <button onClick={next} className="rounded-full bg-[--ink-900] px-5 py-2 text-white">Next</button>
+              <button onClick={next} className="rounded-full bg-[--ink-900] px-5 py-2 text-[--paper-50]">Next</button>
             </div>
           </div>
         </section>
@@ -500,7 +500,7 @@ export default function QuizPage() {
             <button onClick={back} className="rounded-full border border-[--ink-300] px-4 py-2">Back</button>
             <div className="flex gap-2">
               <button onClick={next} className="rounded-full border border-[--ink-300] px-4 py-2">Skip</button>
-              <button onClick={next} className="rounded-full bg-[--ink-900] px-5 py-2 text-white">Next</button>
+              <button onClick={next} className="rounded-full bg-[--ink-900] px-5 py-2 text-[--paper-50]">Next</button>
             </div>
           </div>
         </section>
@@ -551,7 +551,7 @@ export default function QuizPage() {
             <button onClick={back} className="rounded-full border border-[--ink-300] px-4 py-2">Back</button>
             <div className="flex gap-2">
               <button onClick={next} className="rounded-full border border-[--ink-300] px-4 py-2">Skip</button>
-              <button onClick={next} className="rounded-full bg-[--ink-900] px-5 py-2 text-white">Next</button>
+              <button onClick={next} className="rounded-full bg-[--ink-900] px-5 py-2 text-[--paper-50]">Next</button>
             </div>
           </div>
         </section>
@@ -616,7 +616,7 @@ export default function QuizPage() {
             <button onClick={back} className="rounded-full border border-[--ink-300] px-4 py-2">Back</button>
             <div className="flex gap-2">
               <button onClick={next} className="rounded-full border border-[--ink-300] px-4 py-2">Skip</button>
-              <button onClick={next} className="rounded-full bg-[--ink-900] px-5 py-2 text-white">Next</button>
+              <button onClick={next} className="rounded-full bg-[--ink-900] px-5 py-2 text-[--paper-50]">Next</button>
             </div>
           </div>
         </section>
@@ -644,7 +644,7 @@ export default function QuizPage() {
           </div>
           <div className="mt-6 flex justify-between">
             <button onClick={back} className="rounded-full border border-[--ink-300] px-4 py-2">Back</button>
-            <button onClick={submit} disabled={submitting} className="rounded-full bg-[--ink-900] px-5 py-2 text-white disabled:opacity-50">
+            <button onClick={submit} disabled={submitting} className="rounded-full bg-[--ink-900] px-5 py-2 text-[--paper-50] disabled:opacity-50">
               Generate my 5‑minute preview
             </button>
           </div>
