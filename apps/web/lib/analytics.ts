@@ -5,6 +5,7 @@ export type EventName =
   | 'swap_applied'
   | 'redline_intercepted'
   | 'optimize_to_budget'
+  | 'undo_applied'
 
 export function track(event: EventName, payload: Record<string, any> = {}) {
   if (process.env.NEXT_PUBLIC_APP_ENV === 'dev') {
@@ -12,4 +13,3 @@ export function track(event: EventName, payload: Record<string, any> = {}) {
     console.log(`[event] ${event}`, payload)
   }
 }
-

@@ -9,7 +9,7 @@ export type DecisionModalProps = {
   open: boolean
   onClose: () => void
   itemId: string
-  category: 'venue' | 'photo' | 'florals' | 'music' | 'rentals'
+  category: 'venue' | 'photo' | 'florals' | 'music' | 'rentals' | 'lead'
   current: Option
   alternates: Option[]
   redlineCents: number
@@ -55,12 +55,10 @@ export function DecisionModal(props: DecisionModalProps) {
     return () => window.removeEventListener('keydown', onKey)
   }, [open, alternates])
 
-  const delta = useMemo(() => {
-    return current.priceCents
-  }, [current])
+  const delta = useMemo(() => current.priceCents, [current])
 
   async function handleApprove() {
-    const proposedTotal = planTotalCents - current.priceCents + current.priceCents
+    const proposedTotal = planTotalCents // approving current keeps subtotal; if swapping within modal to alt, use onSwap
     if (proposedTotal > redlineCents) {
       track('redline_intercepted', { category, proposedTotal })
       onOverBudget(proposedTotal)
@@ -145,4 +143,3 @@ export function DecisionModal(props: DecisionModalProps) {
     </dialog>
   )
 }
-

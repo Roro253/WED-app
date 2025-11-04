@@ -20,7 +20,11 @@ model Plan {
   status       String   @default("preview")
   redlineCents Int
   totalCents   Int      @default(0)
+  taxPct       Float    @default(0.0875)
+  servicePct   Float    @default(0.18)
+  gratuityPct  Float    @default(0.0)
   summary      String?
+  dateWindows  String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   decisions    DecisionItem[]
@@ -33,10 +37,20 @@ model DecisionItem {
   category    String
   impactScore Int
   status      String
-  selected    String
+  selectedId  String?
+  selected    String?
   options     String
   deltaCents  Int      @default(0)
   createdAt   DateTime @default(now())
+}
+
+model VendorOption {
+  id          String  @id @default(cuid())
+  category    String
+  name        String
+  priceCents  Int
+  tags        String?
+  reasons     String?
 }
 
 model Quiz {

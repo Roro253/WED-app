@@ -23,14 +23,14 @@ async function main() {
       redlineCents,
       totalCents: 0,
       status: 'preview',
+      taxPct: 0.0875,
+      servicePct: 0.18,
+      gratuityPct: 0,
       summary: JSON.stringify({
         venuePreference: null,
         baselineBudgetCents: 3200000,
-        dateWindows: [
-          { label: 'May–Jun', score: 0.8 },
-          { label: 'Sep–Oct', score: 0.9 },
-        ],
       }),
+      dateWindows: JSON.stringify(['2025-09-12','2025-09-19','2025-09-21'])
     },
   })
 
@@ -40,63 +40,66 @@ async function main() {
     return { id: name.toLowerCase().replace(/\s+/g, '-'), name, priceCents, tags, reasons }
   }
 
+  // Create VendorOptions (value, standard, premium) for categories
+  const catalog: { category: string; tiers: { name: string; priceCents: number; tags: string[]; reasons: string[] }[] }[] = [
+    { category: 'photo', tiers: [
+        { name: 'Photo Value', priceCents: 250000, tags: ['modern','weekday_discount'], reasons: ['Price↓'] },
+        { name: 'Photo Standard', priceCents: 350000, tags: ['modern'], reasons: ['Vibe≈'] },
+        { name: 'Photo Premium', priceCents: 500000, tags: ['premium'], reasons: ['Availability↑'] },
+      ] },
+    { category: 'florals', tiers: [
+        { name: 'Florals Value', priceCents: 180000, tags: ['garden'], reasons: ['Price↓'] },
+        { name: 'Florals Standard', priceCents: 300000, tags: ['garden'], reasons: ['Vibe≈'] },
+        { name: 'Florals Premium', priceCents: 450000, tags: ['premium'], reasons: ['Availability↑'] },
+      ] },
+    { category: 'music', tiers: [
+        { name: 'Music Value (DJ)', priceCents: 180000, tags: ['modern'], reasons: ['Price↓'] },
+        { name: 'Music Standard (Band)', priceCents: 320000, tags: ['garden'], reasons: ['Vibe≈'] },
+        { name: 'Music Premium (Band)', priceCents: 500000, tags: ['premium'], reasons: ['Availability↑'] },
+      ] },
+    { category: 'rentals', tiers: [
+        { name: 'Rentals Value', priceCents: 140000, tags: ['historic'], reasons: ['Price↓'] },
+        { name: 'Rentals Standard', priceCents: 200000, tags: ['modern'], reasons: ['Vibe≈'] },
+        { name: 'Rentals Premium', priceCents: 320000, tags: ['premium'], reasons: ['Availability↑'] },
+      ] },
+    { category: 'lead', tiers: [
+        { name: 'Day‑of Lead', priceCents: 120000, tags: ['logistics'], reasons: ['Vibe≈'] },
+        { name: 'Lead + Assistant', priceCents: 180000, tags: ['logistics'], reasons: ['Availability↑'] },
+        { name: 'Full Service', priceCents: 450000, tags: ['premium'], reasons: ['Availability↑'] },
+      ] },
+  ]
+
+  const vendorMap: Record<string, { id: string; name: string; priceCents: number; tags: string[]; reasons: string[] }[]> = {}
+  for (const entry of catalog) {
+    vendorMap[entry.category] = []
+    for (const t of entry.tiers) {
+      const v = await prisma.vendorOption.create({
+        data: { category: entry.category, name: t.name, priceCents: t.priceCents, tags: JSON.stringify(t.tags), reasons: JSON.stringify(t.reasons) },
+      })
+      vendorMap[entry.category].push({ id: v.id, name: v.name, priceCents: v.priceCents, tags: t.tags, reasons: t.reasons })
+    }
+  }
+
+  // Decision items from vendorMap; preselect Standard (index 1) for all except lead where index 0 is required
   const items = [
-    {
-      category: 'venue',
-      impactScore: 9,
-      options: [
-        opt('Garden Loft', 1200000, ['garden','modern'], ['Price↓','Vibe≈']),
-        opt('Historic Hall', 1500000, ['historic'], ['Availability↑','Vibe≈']),
-        opt('Riverside Pavilion', 1000000, ['modern'], ['Price↓']),
-      ],
-    },
-    {
-      category: 'photo',
-      impactScore: 6,
-      options: [
-        opt('Studio Verve', 350000, ['modern'], ['Vibe≈']),
-        opt('Light & Lace', 280000, ['garden'], ['Price↓']),
-        opt('Silver Grain', 420000, ['historic'], ['Availability↑']),
-      ],
-    },
-    {
-      category: 'florals',
-      impactScore: 7,
-      options: [
-        opt('Green Ivy', 300000, ['garden'], ['Vibe≈']),
-        opt('Petal & Stem', 220000, ['modern'], ['Price↓']),
-        opt('Bloom Atelier', 400000, ['historic'], ['Availability↑']),
-      ],
-    },
-    {
-      category: 'music',
-      impactScore: 5,
-      options: [
-        opt('Velvet Quartet', 260000, ['historic'], ['Vibe≈']),
-        opt('Sunset DJ', 180000, ['modern'], ['Price↓']),
-        opt('City Swing Band', 320000, ['garden'], ['Availability↑']),
-      ],
-    },
-    {
-      category: 'rentals',
-      impactScore: 4,
-      options: [
-        opt('Luxe Linen Set', 200000, ['modern'], ['Vibe≈']),
-        opt('Classic Chairs', 150000, ['historic'], ['Price↓']),
-        opt('Garden Mix', 170000, ['garden'], ['Availability↑']),
-      ],
-    },
+    { category: 'photo', impactScore: 4 },
+    { category: 'florals', impactScore: 4 },
+    { category: 'music', impactScore: 3 },
+    { category: 'rentals', impactScore: 2 },
+    { category: 'lead', impactScore: 5 },
   ]
 
   for (const item of items) {
-    const selected = item.options[0]
-    const alternates = item.options.slice(1)
+    const opts = vendorMap[item.category]
+    const selected = item.category === 'lead' ? opts[0] : opts[1]
+    const alternates = opts.filter((o) => o.id !== selected.id)
     await prisma.decisionItem.create({
       data: {
         planId: plan.id,
         category: item.category,
         impactScore: item.impactScore,
         status: 'pending',
+        selectedId: selected.id,
         selected: JSON.stringify(selected),
         options: JSON.stringify(alternates),
         deltaCents: 0,
